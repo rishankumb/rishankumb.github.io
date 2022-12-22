@@ -246,23 +246,26 @@
 					content1.classList.remove('collapsed');
 					content2.classList.remove('collapsed');
 					content3.classList.remove('collapsed');
-					content1.style.height = 'auto'
-					content2.style.height = 'auto'
-					content3.style.height = 'auto'
+					// content1.style.height = 'auto'
+					// content2.style.height = 'auto'
+					// content3.style.height = 'auto'
 					button.innerHTML = 'Collapse';
 				  } else {
-					content1.style.height = `${content1.scrollHeight}px`;
-					content2.style.height = `${content2.scrollHeight}px`;
-					content3.style.height = `${content3.scrollHeight}px`;
-					content1.addEventListener('transitionend', () => {
-        				content1.classList.add('collapsed');
-      				});
-					content2.addEventListener('transitionend', () => {
-        				content2.classList.add('collapsed');
-      				});
-					content3.addEventListener('transitionend', () => {
-        				content3.classList.add('collapsed');
-      				});
+					content1.classList.add('collapsed');
+					content2.classList.add('collapsed');
+					content3.classList.add('collapsed');
+					// content1.style.height = `${content1.scrollHeight}px`;
+					// content2.style.height = `${content2.scrollHeight}px`;
+					// content3.style.height = `${content3.scrollHeight}px`;
+					// content1.addEventListener('transitionend', () => {
+        			// 	content1.classList.add('collapsed');
+      				// });
+					// content2.addEventListener('transitionend', () => {
+        			// 	content2.classList.add('collapsed');
+      				// });
+					// content3.addEventListener('transitionend', () => {
+        			// 	content3.classList.add('collapsed');
+      				// });
 					button.innerHTML = 'Expand';
 				  }
 				});
