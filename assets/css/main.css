@@ -1306,7 +1306,8 @@ input, select, textarea {
 	}
 
 	body {
-		background-image: url("images/overlay.png"), url("images/bg.jpg");
+		background-color: rgb(0, 0, 30);
+		/* background-image: url("images/overlay.png"), url("images/bg.jpg"); */
 		/* background-image: url("images/new1.jpg") !important; */
 		/* background-repeat: repeat, no-repeat; */
 		background-size: auto, 100% 100%;
@@ -2190,3 +2191,16 @@ input, select, textarea {
 			}
 
 		}
+
+		.collapsed {
+			height: 0;
+		    overflow: hidden;
+    		transition: height 0.5s ease-in-out;
+		  }
+		#toggle-button {
+			align-self: right;
+		}
+		.toggle-container {
+			display: flex;
+			justify-content: space-between;
+		  }
