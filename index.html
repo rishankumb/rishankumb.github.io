@@ -136,6 +136,25 @@
 			  
 			  <!-- <button id="read-more-button">Read More</button> -->
 								<ul>
+								<li><strong>RESEARCH ASSISTANT | UMASS BOSTON | MAR 2023 – PRESENT</strong></li>
+								<div id="content4" class="collapsed">
+								<ul>
+									<li>Conducted literature reviews, ensuring comprehensive research material gathering for with the latest developments.</li>
+									<li>Assisted in designing and executing experiments, surveys, or interviews, contributing to effective research methodologies.</li>
+									<li>Collected data using diverse methods, conducted rigorous analysis, and interpreted results for meaningful insights.</li>
+									<li>Demonstrated excellent communication skills, fostering collaboration with participants, colleagues, and professors, and facilitating smooth research activities.</li>
+								</ul>
+								</div>
+								<li><strong>STUDENT ASSISTANT | UMASS BOSTON | MAY 2023 – SEP 2023</strong></li>
+								<div id="content5" class="collapsed">
+								<ul>
+									<li>Developed interactive dashboards to visualize complex data sets for strategic decision-making using Tableau.</li>
+									<li>Diagnosed and resolved problems, offering technical support for seamless software usage by staff and patrons.</li>
+									<li>Identified areas for improvement, making enhancements to optimize software performance and enhance user experience.</li>
+									<li>Maintained precise records of updates, licenses, and configurations, ensuring the integrity of the library's digital resources.</li>
+									<li>Created manuals, documenting update procedures, facilitating efficient knowledge sharing among staff.</li>
+								</ul>
+								</div>
 								<li><strong>ENGINEER | NOKIA CORP. | FEB 2021 – JUL 2022</strong></li>
 								<div id="content1" class="collapsed">
 								<ul>
@@ -248,10 +267,14 @@
 				button.addEventListener('click', () => {
 				  if ((content1.classList.contains('collapsed'))||
 				  		(content2.classList.contains('collapsed'))||
-						  (content3.classList.contains('collapsed'))) {
+				  		(content3.classList.contains('collapsed'))||
+				  		(content4.classList.contains('collapsed'))||
+						  (content5.classList.contains('collapsed'))) {
 					content1.classList.remove('collapsed');
 					content2.classList.remove('collapsed');
 					content3.classList.remove('collapsed');
+					content4.classList.remove('collapsed');
+					content5.classList.remove('collapsed');
 					// content1.style.height = 'auto'
 					// content2.style.height = 'auto'
 					// content3.style.height = 'auto'
@@ -260,6 +283,8 @@
 					content1.classList.add('collapsed');
 					content2.classList.add('collapsed');
 					content3.classList.add('collapsed');
+					content4.classList.add('collapsed');
+					content5.classList.add('collapsed');
 					// content1.style.height = `${content1.scrollHeight}px`;
 					// content2.style.height = `${content2.scrollHeight}px`;
 					// content3.style.height = `${content3.scrollHeight}px`;
