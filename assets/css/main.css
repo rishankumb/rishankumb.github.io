@@ -1306,7 +1306,11 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: rgb(0, 0, 30);
+		background-color: #0d0a0b;
+		background-image: url(images/overlay.png), linear-gradient(315deg, #0d0a0b 0%, #009fc2 74%);, url(../../images/bg.jpg);
+		/* background-color: rgb(68, 0, 0); */
+		/* background-color: #0d0a0b; */
+		/* background-image: linear-gradient(315deg, #0d0a0b 0%, #009fc2 74%); */
 		/* background-image: url("images/overlay.png"), url("images/bg.jpg"); */
 		/* background-image: url("images/new1.jpg") !important; */
 		/* background-repeat: repeat, no-repeat; */
@@ -1535,7 +1539,7 @@ input, select, textarea {
 
 		header > p {
 			margin: 0.5em 0 0 0;
-			color: #aaa;
+			color: #686868;
 		}
 
 		@media screen and (max-width: 736px) {
@@ -1597,7 +1601,7 @@ input, select, textarea {
 		-webkit-appearance: none;
 		display: inline-block;
 		background-color: #222222;
-		color: #ffffff;
+		color: #ffcece;
 		border: 0;
 		cursor: pointer;
 		outline: 0;
@@ -1780,7 +1784,7 @@ input, select, textarea {
 		#nav a {
 			position: relative;
 			display: inline-block;
-			color: #ffffff;
+			color: #ffcece;
 			width: 1em;
 			height: 1em;
 			line-height: 0.9em;
@@ -1809,7 +1813,7 @@ input, select, textarea {
 				left: 50%;
 				bottom: -0.75em;
 				margin-left: -0.5em;
-				border-bottom: solid 0em #ffffff;
+				border-bottom: solid 0em #ffcece;
 				border-left: solid 0.5em transparent;
 				border-right: solid 0.5em transparent;
 				-moz-transition: border-bottom-width .25s ease-in-out;
@@ -1822,7 +1826,7 @@ input, select, textarea {
 				display: block;
 				position: absolute;
 				background: #222222;
-				color: #ffffff;
+				color: #ffcece;
 				top: -2.75em;
 				font-size: 0.3em;
 				height: 2.25em;
@@ -1949,12 +1953,13 @@ input, select, textarea {
 		position: relative;
 		overflow: hidden;
 		width: 100%;
-		background: #ffffff;
+		background: #ffcece;
 		box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
 		-moz-transition: min-height 0.5s ease-in-out, max-height 0.5s ease-in-out;
 		-webkit-transition: min-height 0.5s ease-in-out, max-height 0.5s ease-in-out;
 		-ms-transition: min-height 0.5s ease-in-out, max-height 0.5s ease-in-out;
 		transition: min-height 0.5s ease-in-out, max-height 0.5s ease-in-out;
+		border-radius: 25px;
 	}
 
 		#main > .panel {
@@ -2051,7 +2056,7 @@ input, select, textarea {
 						height: 2.75em;
 						background: #000;
 						background: rgba(0, 0, 0, 0.75);
-						color: #ffffff;
+						color: #ffcece;
 						text-align: center;
 						line-height: 2.75em;
 						font-size: 1.5em;
