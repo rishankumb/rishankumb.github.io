@@ -1,0 +1,78 @@
+@media screen and (max-width: 768px) {
+    .overlay-button {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+        right: 0%;
+    }
+}
+
+.image-outer {
+    background: black;
+    overflow: hidden;
+    height: 100%;
+}
+
+.image-inner {
+   object-fit: cover;
+   height: 100%;
+   /* opacity: 0.4; */
+}
+
+.image-outer:hover .image-inner {
+    opacity: 0.4;
+ }
+
+ .image-container {
+    position: relative;
+    display: inline-block;
+    height:100%;
+}
+
+.overlay-button {
+    position: absolute;
+    bottom: 5%; 
+    right: 35%; 
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    opacity: 0;
+}
+
+.image-outer:hover .overlay-button {
+    opacity: 1;
+ }
+
+.overlay-text {
+    position: absolute;
+    top: 5%; 
+    right: 5%; 
+    padding: 10px 20px;
+    /* background-color: #007bff; */
+    color: #fff;
+    /* border: none; */
+    /* border-radius: 5px; */
+    /* cursor: pointer; */
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    opacity: 0;
+}
+
+.image-outer:hover .overlay-text {
+    opacity: 1;
+ }
+
+.overlay-button:hover {
+    background-color: #0056b3;
+}
+
+.icon-inner{
+    background: #fff;
+}
+
+.img-icon{
+    font-size: 250px;
+}
