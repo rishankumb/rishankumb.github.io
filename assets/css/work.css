@@ -1,7 +1,10 @@
 @media screen and (max-width: 768px) {
     .overlay-button {
         font-size: 3vw; /* Adjust font size for smaller screens */
-        right: 0%;
+        right: 0% !important;
+    }
+    .res{
+        height: 42.703vh
     }
 }
 
