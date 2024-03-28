@@ -247,28 +247,7 @@
 									<a style="color: black;" href="mailto:rishank.singh001@umb.edu">Email</a> |
 									<a style="color: black;" href="/assets/Rishank Singh-resume-0202-email-updated.pdf">CV</a> |
 									<a style="color: black;" href="/assets/Rishank Singh-resume-template-font-size.pdf">Resume</a>
-									<!-- <li><a href="https://linkedin.com/in/rishank-singh-b40a8a6a"><i class="fab fa-linkedin"></i></a></li> -->
-									<!-- <ul><li>Major: Computer Science</li></ul> -->
-									<!-- <li><a href="https://github.com/rishankumb"><i class="fab fa-github"></i></a></li> -->
-									<!-- <ul><li>Major: Computer Science</li></ul> -->
-									<!-- <li><a href="mailto:rishank.singh001@umb.edu"><i class="fab fa-address-card"></i></a></li> -->
-									<!-- <ul><li>Central board of secondary education</li></ul> -->
-									<!-- <li>CV</li> -->
-									<!-- <ul><li>Central board of secondary education</li></ul> -->
 								</ul>
-								<!-- <h3>Awards and recognitions</h3>
-								<ul>
-									<li>Research paper published in college research journal 2016 edition.<a href="https://ijskit.org/abstract.php?article=141">[Link]</a></li>
-									<li>Presented paper in 1st International Conference on “Innovative Advancement in Engineering and Technology (IAET 2014)” at Jaipur National University, Jaipur, India.</li>
-									<li>Presented paper at the 4th National Conference on Emerging Technologies in Computer Engineering (NCETCE-2014) at Swami Keshvanand Institute of Technology, Jaipur, India.</li>
-
-								</ul>
-								<h3>Interests</h3>
-								<ul>
-									<li>Writing</li>
-									<li>Reading</li>
-									<li>Puzzle solving</li>
-								</ul> -->
 							</article>
 					</div>
 				<!-- Footer -->
@@ -282,6 +261,7 @@
 						<ul class="copyright">
 							<li>COPYRIGHT &copy; Rishank Singh</li>
 						</ul>
+					<div id="v-count" style="display: none;"><span id="count">0</span></div>
 					</div>
 			</div>
 
@@ -291,27 +271,6 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-			  
-			  <!-- <script>
-				const button = document.querySelector('#read-more-button');
-				const content = document.querySelector('#content .collapsed');
-			  
-				button.addEventListener('click', () => {
-				  content.classList.remove('collapsed');
-				  button.style.display = 'none';
-				});
-				// document.body.addEventListener('click', (event) => {
-					// if (event.target !== button && !content.contains(event.target)) {
-					//// if (event.target !== button) {
-					// content.classList.add('collapsed');
-					// button.style.display = 'block';
-					// }
-				// });
-				// content.addEventListener('blur', () => {
-    			// 	content.classList.add('collapsed');
-				//     button.style.display = 'block';
-  				// });
-			  </script> -->
 
 			  <script>
 				const button = document.querySelector('#toggle-button');
@@ -328,9 +287,6 @@
 					content3.classList.remove('collapsed');
 					content4.classList.remove('collapsed');
 					content5.classList.remove('collapsed');
-					// content1.style.height = 'auto'
-					// content2.style.height = 'auto'
-					// content3.style.height = 'auto'
 					button.innerHTML = 'Collapse';
 				  } else {
 					content1.classList.add('collapsed');
@@ -338,21 +294,25 @@
 					content3.classList.add('collapsed');
 					content4.classList.add('collapsed');
 					content5.classList.add('collapsed');
-					// content1.style.height = `${content1.scrollHeight}px`;
-					// content2.style.height = `${content2.scrollHeight}px`;
-					// content3.style.height = `${content3.scrollHeight}px`;
-					// content1.addEventListener('transitionend', () => {
-        			// 	content1.classList.add('collapsed');
-      				// });
-					// content2.addEventListener('transitionend', () => {
-        			// 	content2.classList.add('collapsed');
-      				// });
-					// content3.addEventListener('transitionend', () => {
-        			// 	content3.classList.add('collapsed');
-      				// });
 					button.innerHTML = 'Expand';
 				  }
 				});
+
+				//Visitor count:
+				if(localStorage.getItem('visitorCount')) {
+					// If exists, retrieve and increment count
+					var count = parseInt(localStorage.getItem('visitorCount')) + 1;
+				} else {
+					// If not exists, set count to 1
+					var count = 1;
+				}
+
+				// Update the count in the HTML
+				document.getElementById('count').innerText = count;
+
+				// Store the updated count in localStorage
+				localStorage.setItem('visitorCount', count.toString());
+
 			  </script>
 	</body>
 </html>
