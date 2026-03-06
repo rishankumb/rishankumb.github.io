@@ -2210,3 +2210,32 @@ input, select, textarea {
 			display: flex;
 			justify-content: space-between;
 		  }
+
+		  /* Research papers grid — namespaced to avoid collisions */
+#research .research-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+gap: 1.5rem;
+margin-top: 1.25rem;
+}
+#research .research-grid .card {
+background:#fff;
+border:1px solid #eee;
+border-radius:4px;
+overflow:hidden;
+transition:transform .18s ease, box-shadow .18s ease;
+}
+#research .research-grid .card:hover { transform:translateY(-6px); box-shadow:0 8px 22px rgba(20,30,40,0.08); }
+#research .research-grid .card a { color:inherit; text-decoration:none; display:block; height:100%; }
+#research .research-grid figure {
+height:140px;
+background-size:cover;
+background-position:center;
+}
+#research .research-grid .content { padding:1rem 1.1rem 1.2rem; }
+#research .research-grid h3 { margin:0 0 .45rem; font-size:1.05rem; }
+#research .research-grid p { margin:0; color:#666; font-size:.95rem; line-height:1.35; }
+#research .research-grid .badge {
+display:inline-block; margin-top:.6rem; font-size:.78rem; background:#f2f7f3; color:#2d8f49; padding:.18rem .5rem; border-radius:3px;
+}
+#research .research-grid .add-card { border:2px dashed #d7e6ff; display:flex; align-items:center; justify-content:center; text-align:center; }
