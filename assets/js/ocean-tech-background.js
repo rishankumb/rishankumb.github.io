@@ -9,8 +9,8 @@
 
 	const palettes = {
 		oceanTech: {
-			base: [5, 13, 22], cold: [30, 180, 210], warm: [255, 120, 50],
-			grid: [40, 160, 200], accent: [200, 240, 255]
+			base: [21, 25, 30], cold: [52, 127, 140], warm: [182, 107, 61],
+			grid: [77, 105, 116], accent: [195, 216, 218]
 		},
 		abyss: {
 			base: [7, 12, 24], cold: [72, 145, 255], warm: [255, 155, 72],
@@ -29,26 +29,20 @@
 	let time = 0;
 	let frameId = 0;
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-	const random = (min, max) => min + Math.random() * (max - min);
+	const smallScreen = window.matchMedia('(max-width: 736px)');
 	const rgb = (color) => 'rgb(' + color.join(',') + ')';
 	const rgba = (color, alpha) => 'rgba(' + color.join(',') + ',' + alpha + ')';
 
-	const particles = Array.from({ length: 110 }, (_, index) => ({
-		x: Math.random(), y: Math.random(), size: random(0.7, 1.8),
-		speed: random(0.035, 0.12), amplitude: random(5, 24),
-		phase: random(0, Math.PI * 2), warm: index < 40
-	}));
-
-	const ripples = Array.from({ length: 7 }, () => ({
-		x: Math.random(), y: Math.random(), phase: random(0, 240),
-		speed: random(0.13, 0.28), period: random(180, 300),
-		maxRadius: random(90, 230), cycle: -1
-	}));
+	const signalChannels = [
+		{ level: 0.29, phase: 0.4, color: 'cold' },
+		{ level: 0.5, phase: 2.1, color: 'accent' },
+		{ level: 0.71, phase: 4.2, color: 'warm' }
+	];
 
 	function resize() {
 		width = window.innerWidth;
 		height = window.innerHeight;
-		pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+		pixelRatio = Math.min(window.devicePixelRatio || 1, smallScreen.matches ? 1.25 : 2);
 		canvas.width = Math.round(width * pixelRatio);
 		canvas.height = Math.round(height * pixelRatio);
 		ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -60,21 +54,21 @@
 		ctx.fillRect(0, 0, width, height);
 
 		let gradient = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, height * 0.48, height * 0.74);
-		gradient.addColorStop(0, rgba(activePalette.cold, 0.10));
+		gradient.addColorStop(0, rgba(activePalette.cold, 0.08));
 		gradient.addColorStop(1, rgba(activePalette.cold, 0));
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, width, height);
 
 		gradient = ctx.createLinearGradient(0, height * 0.48, 0, height);
 		gradient.addColorStop(0, rgba(activePalette.warm, 0));
-		gradient.addColorStop(1, rgba(activePalette.warm, 0.13));
+		gradient.addColorStop(1, rgba(activePalette.warm, 0.10));
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, width, height);
 
 		const pulse = 0.5 + 0.5 * Math.sin(time * 0.012);
 		[
-			{ x: 0, strength: 0.12 + pulse * 0.06 },
-			{ x: width, strength: 0.12 + (1 - pulse) * 0.06 }
+			{ x: 0, strength: 0.07 + pulse * 0.05 },
+			{ x: width, strength: 0.07 + (1 - pulse) * 0.05 }
 		].forEach((blob) => {
 			const radius = Math.max(width, height) * 0.62;
 			const glow = ctx.createRadialGradient(blob.x, height, 0, blob.x, height, radius);
@@ -85,115 +79,71 @@
 		});
 
 		gradient = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, 0, height * 0.55);
-		gradient.addColorStop(0, rgba(activePalette.cold, 0.16));
+		gradient.addColorStop(0, rgba(activePalette.cold, 0.11));
 		gradient.addColorStop(1, rgba(activePalette.cold, 0));
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, width, height);
 	}
 
-	function drawGrid() {
-		const columns = 20;
-		const rows = 11;
-		ctx.lineWidth = 0.65;
+	function drawSignalNetwork() {
+		const centerY = height * 0.52;
+		const hubX = width > 980 ? Math.min(width * 0.18, 260) : (width > 736 ? 54 : 12);
+		const sampleCount = Math.max(18, Math.ceil(hubX / 6));
 
-		for (let column = 0; column <= columns; column += 1) {
-			const x = (width * column) / columns;
-			ctx.beginPath();
-			ctx.moveTo(x, 0);
-			ctx.lineTo(x, height);
-			ctx.strokeStyle = rgba(activePalette.grid, 0.018 + 0.022 * Math.abs(Math.sin(time * 0.018 + column)));
-			ctx.stroke();
+		function pointAt(channel, progress, side) {
+			const direction = side === 'left' ? 1 : -1;
+			const x = side === 'left' ? hubX * progress : width - hubX * progress;
+			const startY = height * channel.level;
+			const envelope = Math.sin(Math.PI * progress);
+			const wave = envelope * (
+				Math.sin(progress * 8 + time * 0.018 + channel.phase) * height * 0.012 +
+				Math.sin(progress * 19 - time * 0.011 + channel.phase) * height * 0.003
+			);
+			return {
+				x,
+				y: startY + (centerY - startY) * progress + wave,
+				direction
+			};
 		}
 
-		for (let row = 0; row <= rows; row += 1) {
-			const y = (height * row) / rows;
-			ctx.beginPath();
-			ctx.moveTo(0, y);
-			ctx.lineTo(width, y);
-			ctx.strokeStyle = rgba(activePalette.grid, 0.018 + 0.022 * Math.abs(Math.sin(time * 0.018 + row + 20)));
-			ctx.stroke();
-		}
+		['left', 'right'].forEach((side) => {
+			signalChannels.forEach((channel, channelIndex) => {
+				const color = activePalette[channel.color];
+				ctx.beginPath();
+				for (let sample = 0; sample <= sampleCount; sample += 1) {
+					const progress = sample / sampleCount;
+					const point = pointAt(channel, progress, side);
+					if (sample === 0) ctx.moveTo(point.x, point.y);
+					else ctx.lineTo(point.x, point.y);
+				}
+				ctx.strokeStyle = rgba(color, 0.13);
+				ctx.lineWidth = channelIndex === 1 ? 1.1 : 0.85;
+				ctx.stroke();
 
-		for (let column = 0; column <= columns; column += 4) {
-			for (let row = 0; row <= rows; row += 2) {
-				if ((column * 7 + row * 11) % 13 > 2) continue;
-				const x = (width * column) / columns;
-				const y = (height * row) / rows;
-				const pulse = 0.35 + 0.65 * Math.abs(Math.sin(time * 0.035 + column + row));
-				const color = y < height * 0.52 ? activePalette.cold : activePalette.warm;
-				const radius = 1.1 + pulse * 1.1;
-				const halo = ctx.createRadialGradient(x, y, 0, x, y, radius * 4);
-				halo.addColorStop(0, rgba(color, 0.28 * pulse));
+				const pulseProgress = (time * 0.0018 + channelIndex * 0.29 + (side === 'right' ? 0.5 : 0)) % 1;
+				const pulsePoint = pointAt(channel, pulseProgress, side);
+				const pulse = 0.55 + 0.45 * Math.sin(time * 0.035 + channel.phase);
+				const halo = ctx.createRadialGradient(pulsePoint.x, pulsePoint.y, 0, pulsePoint.x, pulsePoint.y, 10);
+				halo.addColorStop(0, rgba(color, 0.16 * pulse));
 				halo.addColorStop(1, rgba(color, 0));
 				ctx.fillStyle = halo;
-				ctx.fillRect(x - radius * 4, y - radius * 4, radius * 8, radius * 8);
+				ctx.fillRect(pulsePoint.x - 10, pulsePoint.y - 10, 20, 20);
 				ctx.beginPath();
-				ctx.arc(x, y, radius * 0.5, 0, Math.PI * 2);
-				ctx.fillStyle = rgba(color, 0.55 * pulse);
+				ctx.arc(pulsePoint.x, pulsePoint.y, 1.5, 0, Math.PI * 2);
+				ctx.fillStyle = rgba(color, 0.52 * pulse);
 				ctx.fill();
-			}
-		}
-	}
+			});
 
-	function drawCurrents() {
-		[0.12, 0.23, 0.34, 0.44, 0.61, 0.77, 0.9].forEach((level, index) => {
-			const color = index === 4 || index === 5 ? activePalette.warm : activePalette.cold;
-			const opacity = 0.06 + 0.05 * Math.abs(Math.sin(time * 0.013 + index));
+			const hubXPosition = side === 'left' ? hubX : width - hubX;
+			const hubPulse = 0.5 + 0.5 * Math.sin(time * 0.02 + (side === 'left' ? 0 : 1.7));
+			const hubGlow = ctx.createRadialGradient(hubXPosition, centerY, 0, hubXPosition, centerY, 22);
+			hubGlow.addColorStop(0, rgba(activePalette.warm, 0.13 + hubPulse * 0.05));
+			hubGlow.addColorStop(1, rgba(activePalette.warm, 0));
+			ctx.fillStyle = hubGlow;
+			ctx.fillRect(hubXPosition - 22, centerY - 22, 44, 44);
 			ctx.beginPath();
-			for (let x = 0; x <= width + 8; x += 8) {
-				const drift = time * (0.008 + index * 0.0012);
-				const y = height * level + Math.sin(x * 0.009 + drift + index) * (5 + index) + Math.sin(x * 0.019 - drift * 0.7) * 2.5;
-				if (x === 0) ctx.moveTo(x, y);
-				else ctx.lineTo(x, y);
-			}
-			ctx.strokeStyle = rgba(color, opacity);
-			ctx.lineWidth = 0.7;
-			ctx.stroke();
-		});
-	}
-
-	function drawRipples() {
-		ripples.forEach((ripple) => {
-			const elapsed = time * ripple.speed + ripple.phase;
-			const cycle = Math.floor(elapsed / ripple.period);
-			if (cycle !== ripple.cycle) {
-				ripple.cycle = cycle;
-				ripple.x = Math.random();
-				ripple.y = Math.random();
-				ripple.maxRadius = random(90, Math.max(100, Math.min(width, height) * 0.45));
-			}
-			const progress = (elapsed % ripple.period) / ripple.period;
-			const radius = progress * ripple.maxRadius;
-			const opacity = (1 - progress) * 0.11;
-			if (radius < 1) return;
-
-			ctx.beginPath();
-			ctx.arc(ripple.x * width, ripple.y * height, radius, 0, Math.PI * 2);
-			ctx.strokeStyle = rgba(activePalette.cold, opacity);
-			ctx.lineWidth = 0.8;
-			ctx.stroke();
-			ctx.beginPath();
-			ctx.arc(ripple.x * width, ripple.y * height, radius * 0.45, 0, Math.PI * 2);
-			ctx.strokeStyle = rgba(activePalette.warm, opacity * 0.85);
-			ctx.stroke();
-		});
-	}
-
-	function drawParticles() {
-		particles.forEach((particle) => {
-			const y = ((particle.y * height - time * particle.speed) % (height + 24) + height + 24) % (height + 24) - 12;
-			const x = particle.x * width + Math.sin(time * 0.02 + particle.phase) * particle.amplitude;
-			const color = particle.warm ? activePalette.warm : activePalette.cold;
-			const flicker = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(time * 0.045 + particle.phase));
-			const haloRadius = particle.size * 5;
-			const halo = ctx.createRadialGradient(x, y, 0, x, y, haloRadius);
-			halo.addColorStop(0, rgba(color, 0.22 * flicker));
-			halo.addColorStop(1, rgba(color, 0));
-			ctx.fillStyle = halo;
-			ctx.fillRect(x - haloRadius, y - haloRadius, haloRadius * 2, haloRadius * 2);
-			ctx.beginPath();
-			ctx.arc(x, y, particle.size * 0.7, 0, Math.PI * 2);
-			ctx.fillStyle = rgba(color, 0.72 * flicker);
+			ctx.arc(hubXPosition, centerY, 2.2, 0, Math.PI * 2);
+			ctx.fillStyle = rgba(activePalette.accent, 0.76);
 			ctx.fill();
 		});
 	}
@@ -202,8 +152,8 @@
 		const center = height * 0.52;
 		const band = ctx.createLinearGradient(0, center - 18, 0, center + 18);
 		band.addColorStop(0, rgba(activePalette.cold, 0.015));
-		band.addColorStop(0.43, rgba(activePalette.accent, 0.095));
-		band.addColorStop(0.58, rgba(activePalette.accent, 0.11));
+		band.addColorStop(0.43, rgba(activePalette.accent, 0.065));
+		band.addColorStop(0.58, rgba(activePalette.accent, 0.075));
 		band.addColorStop(1, rgba(activePalette.warm, 0.025));
 		ctx.fillStyle = band;
 		ctx.fillRect(0, center - 18, width, 36);
@@ -215,7 +165,7 @@
 			if (x === 0) ctx.moveTo(x, y);
 			else ctx.lineTo(x, y);
 		}
-		ctx.strokeStyle = rgba(activePalette.accent, 0.18);
+		ctx.strokeStyle = rgba(activePalette.accent, 0.12);
 		ctx.lineWidth = 1;
 		ctx.stroke();
 	}
@@ -233,10 +183,7 @@
 		if (!width || !height) return;
 		ctx.clearRect(0, 0, width, height);
 		drawDepth();
-		drawGrid();
-		drawCurrents();
-		drawRipples();
-		drawParticles();
+		drawSignalNetwork();
 		drawThermocline();
 		drawVignette();
 	}
